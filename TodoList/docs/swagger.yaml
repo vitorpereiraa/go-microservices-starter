@@ -1,0 +1,112 @@
+definitions:
+  controllers.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  dtos.ItemDTO:
+    properties:
+      description:
+        type: string
+      duedate:
+        type: string
+    type: object
+  dtos.TodoListDTO:
+    properties:
+      description:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/dtos.ItemDTO'
+        type: array
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /todoList:
+    post:
+      consumes:
+      - application/json
+      description: Create a Todo List
+      parameters:
+      - description: Create todoList
+        in: body
+        name: todoList
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.TodoListDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TodoListDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Create todoList
+      tags:
+      - todoList
+  /todoList/:
+    get:
+      description: Find all todo lists
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.TodoListDTO'
+            type: array
+      summary: FindTodoLists
+      tags:
+      - todoList
+  /todoList/{name}:
+    delete:
+      description: Delete a todo list by Name
+      parameters:
+      - description: Todo List Name
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TodoListDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: DeleteTodoListByName
+      tags:
+      - todoList
+    get:
+      description: Find a todo list by Name
+      parameters:
+      - description: Todo List Name
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TodoListDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: FindTodoListByName
+      tags:
+      - todoList
+swagger: "2.0"
