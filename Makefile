@@ -3,3 +3,6 @@ dcu: dcd
 
 dcd: 
 	docker compose down
+
+cicd:
+	dagger run go run Infrastructure/cicd/dagger/dagger.go
